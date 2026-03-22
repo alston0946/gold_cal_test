@@ -52,9 +52,9 @@ SILVER_CHAIN_COST = 33
 SILVER_CHAIN_SALE = 59
 
 CRAFT_OPTIONS = {
-    "珐琅": 105,
+    "珐琅": 108,
     "素金": 98,
-    "钻石": 115
+    "钻石": 118
 }
 
 # -----------------------------
@@ -295,27 +295,35 @@ with st.expander("查看当前详细拆分"):
 
     with left:
         st.markdown("**销售端**")
-        st.write(f"销售金价总额：¥ {sale_gold_total:.2f}")
-        st.write(f"销售手工费总额：¥ {sale_labor_total:.2f}")
+        st.write(f"销售金价总额：¥ {sale_gold_price_per_g:.2f} × {weight:.2f} = ¥ {sale_gold_total:.2f}")
+        st.write(f"销售手工费总额：¥ {sale_labor_per_g:.2f} × {weight:.2f} = ¥ {sale_labor_total:.2f}")
         st.write(f"销售运费：¥ {SALES_SHIPPING:.2f}")
         st.write(f"证书销售费：¥ {SALES_CERT_FEE:.2f}")
         st.write(f"银链售价：¥ {silver_chain_sale:.2f}")
         st.write(f"编绳售价：¥ {braid_sale:.2f}")
-        st.write(f"未税销售合计：¥ {untaxed_sale_total:.2f}")
-        st.write(f"税费：¥ {tax_fee:.2f}")
-        st.write(f"总销售价：¥ {customer_total_payment:.2f}")
+        st.write(
+            f"未税销售合计：¥ {sale_gold_total:.2f} + ¥ {sale_labor_total:.2f} + "
+            f"¥ {SALES_SHIPPING:.2f} + ¥ {SALES_CERT_FEE:.2f} + "
+            f"¥ {silver_chain_sale:.2f} + ¥ {braid_sale:.2f} = ¥ {untaxed_sale_total:.2f}"
+        )
+        st.write(f"税费：¥ {untaxed_sale_total:.2f} × {tax_rate_percent:.2f}% = ¥ {tax_fee:.2f}")
+        st.write(f"总销售价：¥ {untaxed_sale_total:.2f} + ¥ {tax_fee:.2f} = ¥ {customer_total_payment:.2f}")
 
     with right:
         st.markdown("**成本端**")
-        st.write(f"成本金价总额：¥ {cost_gold_total:.2f}")
-        st.write(f"成本手工费总额：¥ {cost_labor_total:.2f}")
+        st.write(f"成本金价总额：¥ {cost_gold_price_per_g:.2f} × {weight:.2f} = ¥ {cost_gold_total:.2f}")
+        st.write(f"成本手工费总额：¥ {COST_LABOR_PER_G:.2f} × {weight:.2f} = ¥ {cost_labor_total:.2f}")
         st.write(f"运费成本：¥ {COST_SHIPPING:.2f}")
         st.write(f"证书成本：¥ {COST_CERT_FEE:.2f}")
         st.write(f"银链成本：¥ {silver_chain_cost:.2f}")
         st.write(f"编绳成本：¥ {braid_cost:.2f}")
-        st.write(f"原始成本：¥ {base_cost:.2f}")
+        st.write(
+            f"原始成本：¥ {cost_gold_total:.2f} + ¥ {cost_labor_total:.2f} + "
+            f"¥ {COST_SHIPPING:.2f} + ¥ {COST_CERT_FEE:.2f} + "
+            f"¥ {silver_chain_cost:.2f} + ¥ {braid_cost:.2f} = ¥ {base_cost:.2f}"
+        )
         st.write(f"税费：¥ {tax_fee:.2f}")
-        st.write(f"总成本：¥ {total_cost:.2f}")
+        st.write(f"总成本：¥ {base_cost:.2f} + ¥ {tax_fee:.2f} = ¥ {total_cost:.2f}")
 
 # -----------------------------
 # 详细拆分记录（历史）

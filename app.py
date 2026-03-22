@@ -1,6 +1,7 @@
 import streamlit as st
 import json
 import os
+import pandas as pd
 
 st.set_page_config(page_title="金饰利润计算", page_icon="💰", layout="centered")
 
@@ -123,7 +124,7 @@ untaxed_sale_total = (
 # 税费
 tax_fee = untaxed_sale_total * tax_rate
 
-# 客户支付总价（含税）
+# 总销售价（含税）
 customer_total_payment = untaxed_sale_total + tax_fee
 
 # 原始成本（未加税）
@@ -180,7 +181,7 @@ with btn1:
             "总成本": round(total_cost, 2),
             "总销售价": round(customer_total_payment, 2),
             "利润": round(profit, 2),
-            "利润率": round(profit_rate * 100, 2)
+            "利润率(%)": round(profit_rate * 100, 2)
         }
         st.session_state.history.append(record)
         save_history(st.session_state.history)
@@ -197,10 +198,21 @@ with btn2:
 # -----------------------------
 with st.expander("查看历史记录"):
     if st.session_state.history:
+        history_df = pd.DataFrame(st.session_state.history)
+
         st.dataframe(
-            st.session_state.history,
+            history_df,
             use_container_width=True,
             hide_index=True
+        )
+
+        csv_data = history_df.to_csv(index=False).encode("utf-8-sig")
+        st.download_button(
+            label="导出历史记录为 CSV",
+            data=csv_data,
+            file_name="profit_history.csv",
+            mime="text/csv",
+            use_container_width=True
         )
     else:
         st.caption("暂无保存记录")

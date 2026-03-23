@@ -42,7 +42,7 @@ if "detail_history" not in st.session_state:
 # -----------------------------
 # 固定参数
 # -----------------------------
-SALES_SHIPPING = 15
+SALES_SHIPPING = 20
 COST_SHIPPING = 13
 SALES_CERT_FEE = 5
 COST_CERT_FEE = 4
